@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <context:component-scan base-package="cn.tele">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <context:property-placeholder location="classpath:db.properties"/>
+
+    <!--数据源-->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="jdbcUrl" value="${db.url}"/>
+        <property name="driverClass" value="${db.driver}"/>
+        <property name="user" value="${db.username}"/>
+        <property name="password" value="${db.password}"/>
+        <property name="initialPoolSize" value="${db.initialPoolSize}"/>
+        <property name="maxPoolSize" value="${db.maxPoolSize}"/>
+        <property name="maxIdleTime" value="${db.maxIdleTime}"/>
+        <property name="idleConnectionTestPeriod" value="${db.idleConnectionTestPeriod}"/>
+        <property name="testConnectionOnCheckout" value="${db.testConnectionOnCheckout}"/>
+      </bean>
+
+
+    <!--mybatis-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="mapperLocations" value="classpath*:cn/tele/mapper/**/*.xml"/>
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configurationProperties">
+            <props>
+                <prop key="cacheEnabled">true</prop>
+                <prop key="jdbcTypeForNull">NULL</prop>
+                <prop key="lazyLoadingEnabled">true</prop>
+                <prop key="aggressiveLazyLoading">false</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!--扫描mapper-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <property name="basePackage" value="cn.tele.mapper"/>
+    </bean>
+    
+    <!-- 配置fastjson为默认的json解析器 -->
+    <bean id="mappingJacksonHttpMessageConverter" class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+        <property name="supportedMediaTypes">
+            <list>
+                <value>text/html;charset=UTF-8</value>
+                <value>application/json</value>
+                <value>application/xml;charset=UTF-8</value>
+            </list>
+        </property>
+    </bean>
+    
+    
+    <!-- 拦截 -->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+    
+</beans>
