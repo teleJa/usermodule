@@ -67,5 +67,4 @@ public class UserController {
 	public String test() {
 		return "test";
 	}
-	
 }
