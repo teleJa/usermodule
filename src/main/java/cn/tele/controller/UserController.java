@@ -64,5 +64,9 @@ public class UserController {
 		Integer count = userService.updateUser(user);
 		return count == 1 ? "成功更新1条记录":"更新" + user + "失败";
 	}
-	
+
+	public void add() {
+		System.out.println("asdads");
+	}
+
 }
