@@ -32,14 +32,16 @@ public class UserController {
 	
 	
 	@RequestMapping(value= {"/listUserByUserName/{name}","/listUserByUserName"})
-	public @ResponseBody List<User> listUserByUserName(@PathVariable String name){
-		return userService.listUserByUserName(name);
+	public @ResponseBody Object listUserByUserName(@PathVariable String name){
+		List<User> list = userService.listUserByUserName(name);
+		return list.size() > 0 ? list :"未查询到userName=" + name + "的用户";
 	}
 	
 	
 	@RequestMapping(value= {"/listUserByDepartmentId/{id}","/listUserByDepartmentId"})
-	public @ResponseBody List<User> listUserByDepartmentId(@PathVariable Integer id){
-		return userService.listUserByDepartmentId(id);
+	public @ResponseBody Object listUserByDepartmentId(@PathVariable Integer id){
+		List<User> list = userService.listUserByDepartmentId(id);
+		return list.size() > 0 ? list : "未查询到departmentId=" + id + "的用户";
 	}
 
 	@RequestMapping(value= {"/deleteUserById/{id}","/deleteUserById"})
@@ -61,10 +63,6 @@ public class UserController {
 	public @ResponseBody String updateUser(@Validated(Update.class) @RequestBody User user) {
 		Integer count = userService.updateUser(user);
 		return count == 1 ? "成功更新1条记录":"更新" + user + "失败";
-	}
-	
-	public void dev() {
-		
 	}
 	
 }
