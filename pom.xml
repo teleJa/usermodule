@@ -20,7 +20,7 @@
         <spring.version>4.0.3.RELEASE</spring.version>
         <mysql.version>5.1.12</mysql.version>
 
-        <jackson.version>2.9.9.3</jackson.version>
+        <jackson.version>2.9.10.3</jackson.version>
         <c3p0.version>0.9.5.4</c3p0.version>
         <junit.verion>4.12</junit.verion>
         <log4j.verison>2.12.1</log4j.verison>
