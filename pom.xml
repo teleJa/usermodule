@@ -22,7 +22,7 @@
 
         <jackson.version>2.9.9.3</jackson.version>
         <c3p0.version>0.9.5.4</c3p0.version>
-        <junit.verion>4.12</junit.verion>
+        <junit.verion>4.13.1</junit.verion>
         <log4j.verison>2.12.1</log4j.verison>
         <slf4j.version>1.7.28</slf4j.version>
     </properties>
